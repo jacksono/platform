@@ -44,6 +44,11 @@ planRoutes.post('/', (req, res) => {
 
 // list members by plan
 planRoutes.get('/:planId/members', (req, res) => {
+  Plan.findById(req.params.planId)
+  .then((plan) => {
+    if (!plan) {
+      throw Error('That plan does not exist')
+    }
     Member.findAll({ where: { planId: req.params.planId } })
       .then((result) => {
         if (result.length === 0){
@@ -58,10 +63,18 @@ planRoutes.get('/:planId/members', (req, res) => {
           data: result,
         });
       })
-      .catch((error) => {
-        res.status(500).send({ message: 'Internal Server Error' });
-        console.error(error);
-      });
+  })
+  .catch((error) => {
+    if (error.message === "That plan does not exist") {
+      res.status(404);
+      res.json({
+        error: { plan: "That plan does not exist" }
+      })
+    } else {
+      res.status(500).send({ message: 'Internal Server Error' });
+      console.error(error);
+    }
+  });
 });
 
 // add a member to a plan
