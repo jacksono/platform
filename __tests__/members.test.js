@@ -37,7 +37,7 @@ describe('Test member routes', () => {
     request(app).post('/api/v1/members').send(payload)
       .then((response) => {
         expect(response.statusCode).toBe(400);
-        expect(response.body.error).toEqual("First name must be provided");
+        expect(response.body.error.firstName).toEqual("First name must be provided");
         done()
       });
   });
@@ -47,7 +47,7 @@ describe('Test member routes', () => {
     request(app).post('/api/v1/members').send(payload)
       .then((response) => {
         expect(response.statusCode).toBe(400);
-        expect(response.body.error).toEqual("Last name must be provided");
+        expect(response.body.error.lastName).toEqual("Last name must be provided");
         done()
       });
   });
@@ -57,7 +57,7 @@ describe('Test member routes', () => {
     request(app).post('/api/v1/members').send(payload)
       .then((response) => {
         expect(response.statusCode).toBe(400);
-        expect(response.body.error).toEqual("DOB must be provided");
+        expect(response.body.error.dob).toEqual("DOB must be provided");
         done()
       });
   });
