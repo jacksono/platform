@@ -91,4 +91,14 @@ describe('Test plan routes', () => {
         done()
       });
   });
+
+  test('A member can only be added to an existing plan', (done) => {
+    request(app)
+      .patch('/api/v1/plans/99/members/1')
+      .then((response) => {
+        expect(response.statusCode).toBe(404);
+        expect(response.body.error.plan).toEqual("That plan does not exist");
+        done()
+      });
+  });
 });
