@@ -14,6 +14,9 @@ planRoutes.post('/', (req, res) => {
   if (req.body.type && !planTypes.includes(req.body.type) ) {
     errors['type'] = "type must be either 'recurrent' or 'timeLimited'"
   }
+  if (req.body.type  === 'timeLimited' && (!req.body.startDate || !req.body.endDate) ) {
+    errors['dates'] = "Both start date and end date must be provided"
+  }
   if (Object.keys(errors).length !== 0) {
     res.status(400);
     res.json({

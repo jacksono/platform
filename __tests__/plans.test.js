@@ -87,7 +87,7 @@ describe('Test plan routes', () => {
     request(app).post('/api/v1/plans').send(payload)
       .then((response) => {
         expect(response.statusCode).toBe(400);
-        expect(response.body.error.planName).toEqual("Both start date and end date must be provided");
+        expect(response.body.error.dates).toEqual("Both start date and end date must be provided");
         done()
       });
   });
