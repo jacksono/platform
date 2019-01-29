@@ -9,7 +9,6 @@ const plan = (db, DataTypes) => {
       },
       type: {
         type: DataTypes.STRING,
-        allowNull: false
       },
       startDate: {
         type: DataTypes.STRING,

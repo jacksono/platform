@@ -7,8 +7,12 @@ const planRoutes = express.Router();
 // Add a plan
 planRoutes.post('/', (req, res) => {
   let errors = {};
+  const planTypes = ['recurrent', 'timeLimited']
   if (!req.body.planName) {
     errors['planName'] = "planName must be provided"
+  }
+  if (req.body.type && !planTypes.includes(req.body.type) ) {
+    errors['type'] = "type must be either 'recurrent' or 'timeLimited'"
   }
   if (Object.keys(errors).length !== 0) {
     res.status(400);
