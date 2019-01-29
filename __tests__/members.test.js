@@ -41,4 +41,14 @@ describe('Test member routes', () => {
         done()
       });
   });
+
+  test('A member must be created with a last name name', (done) => {
+    const payload = { firstName: 'Bob', dob: '9/5/1990'};
+    request(app).post('/api/v1/members').send(payload)
+      .then((response) => {
+        expect(response.statusCode).toBe(400);
+        expect(response.body.error).toEqual("Last name must be provided");
+        done()
+      });
+  });
 });
