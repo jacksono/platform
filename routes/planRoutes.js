@@ -1,5 +1,5 @@
 const express = require('express');
-const { Plan } = require('../db');
+const { Plan, Member } = require('../db');
 
 const planRoutes = express.Router();
 
@@ -22,5 +22,19 @@ planRoutes.post('/', (req, res) => {
     });
 });
 
+// list members by plan
+planRoutes.get('/:planId/members', (req, res) => {
+    Member.findAll({ where: { planId: req.params.planId } })
+      .then((result) => {
+        res.status(200)
+        res.json({
+          data: result,
+        });
+      })
+      .catch((error) => {
+        res.status(500).send({ message: 'Internal Server Error' });
+        console.error(error);
+      });
+});
 
 module.exports = planRoutes;
