@@ -45,6 +45,13 @@ planRoutes.post('/', (req, res) => {
 planRoutes.get('/:planId/members', (req, res) => {
     Member.findAll({ where: { planId: req.params.planId } })
       .then((result) => {
+        if (result.length === 0){
+          res.status(200)
+          res.json({
+            data: "There are no members belonging to this plan",
+          });
+          return;
+        }
         res.status(200)
         res.json({
           data: result,

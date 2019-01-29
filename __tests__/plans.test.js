@@ -124,8 +124,7 @@ describe('Test plan routes', () => {
       request(app)
         .get(`/api/v1/plans/${plan.id}/members`)
         .then((response) => {
-          expect(response.body.data.length).toBe(0);
-          expect(response.body.data.message).toEqual(
+          expect(response.body.data).toEqual(
             "There are no members belonging to this plan"
           );
           done()
