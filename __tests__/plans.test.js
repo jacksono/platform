@@ -32,7 +32,7 @@ describe('Test plan routes', () => {
   })
 
   test('A plan can be created', (done) => {
-    const payload = { planName: 'Silver', type: 'recurssive'};
+    const payload = { planName: 'Silver', type: 'recurrent'};
     request(app)
       .post('/api/v1/plans')
       .send(payload)
@@ -63,7 +63,7 @@ describe('Test plan routes', () => {
   });
 
   test('A plan must be created with a name', (done) => {
-    const payload = { type: 'recurssive'};
+    const payload = { type: 'recurrent'};
     request(app).post('/api/v1/plans').send(payload)
       .then((response) => {
         expect(response.statusCode).toBe(400);

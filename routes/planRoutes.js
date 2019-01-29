@@ -6,6 +6,18 @@ const planRoutes = express.Router();
 
 // Add a plan
 planRoutes.post('/', (req, res) => {
+  let errors = {};
+  if (!req.body.planName) {
+    errors['planName'] = "planName must be provided"
+  }
+  if (Object.keys(errors).length !== 0) {
+    res.status(400);
+    res.json({
+      error: errors
+    })
+    return;
+  }
+
   Plan.create({
     planName: req.body.planName,
     type: req.body.type
