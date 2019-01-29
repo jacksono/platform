@@ -131,4 +131,14 @@ describe('Test plan routes', () => {
         });
     })
   });
+
+  test('List members for only plans that exist', (done) => {
+    request(app)
+      .get('/api/v1/plans/99/members')
+      .then((response) => {
+        expect(response.statusCode).toBe(404);
+        expect(response.body.error.plan).toEqual("That plan does not exist");
+        done()
+      });
+  });
 });
