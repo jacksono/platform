@@ -81,4 +81,14 @@ describe('Test plan routes', () => {
         done()
       });
   });
+
+  test('Time limited plans must have a start date and end date', (done) => {
+    const payload = { planName: "Gold", type: 'timeLimited'};
+    request(app).post('/api/v1/plans').send(payload)
+      .then((response) => {
+        expect(response.statusCode).toBe(400);
+        expect(response.body.error.planName).toEqual("Both start date and end date must be provided");
+        done()
+      });
+  });
 });
