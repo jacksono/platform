@@ -77,7 +77,9 @@ describe('Test plan routes', () => {
     request(app).post('/api/v1/plans').send(payload)
       .then((response) => {
         expect(response.statusCode).toBe(400);
-        expect(response.body.error.type).toEqual("type must be either 'recurrent' or 'timeLimited'");
+        expect(response.body.error.type).toEqual(
+          "type must be either 'recurrent' or 'timeLimited'"
+        );
         done()
       });
   });
@@ -87,7 +89,9 @@ describe('Test plan routes', () => {
     request(app).post('/api/v1/plans').send(payload)
       .then((response) => {
         expect(response.statusCode).toBe(400);
-        expect(response.body.error.dates).toEqual("Both start date and end date must be provided");
+        expect(response.body.error.dates).toEqual(
+          "Both start date and end date must be provided"
+        );
         done()
       });
   });
@@ -110,5 +114,22 @@ describe('Test plan routes', () => {
         expect(response.body.error.member).toEqual("That member does not exist");
         done()
       });
+  });
+
+  test('Show message if there are no members belonging to a plan', (done) => {
+    Plan.create({
+      planName: "Diamond"
+    })
+    .then((plan) => {
+      request(app)
+        .get(`/api/v1/plans/${plan.id}/members`)
+        .then((response) => {
+          expect(response.body.data.length).toBe(0);
+          expect(response.body.data.message).toEqual(
+            "There are no members belonging to this plan"
+          );
+          done()
+        });
+    })
   });
 });

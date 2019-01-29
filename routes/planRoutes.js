@@ -72,7 +72,7 @@ planRoutes.patch('/:planId/members/:memberId', (req, res) => {
           if (!member) {
             throw Error("That member does not exist");
           }
-          member.updateAttributes({plan: plan})
+          member.updateAttributes({planId: plan.id})
           res.status(200)
           res.json({
             message: "Updated Succesfully",
