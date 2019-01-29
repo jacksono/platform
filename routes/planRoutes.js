@@ -37,4 +37,20 @@ planRoutes.get('/:planId/members', (req, res) => {
       });
 });
 
+// add a member to a plan
+planRoutes.patch('/:planId/members/:memberId', (req, res) => {
+  Member.findById(req.params.memberId )
+      .then((result) => {
+        result.updateAttributes({planId: req.params.planId})
+        res.status(200)
+        res.json({
+          data: "Updated Succesfully",
+        });
+      })
+      .catch((error) => {
+        res.status(500).send({ message: 'Internal Server Error' });
+        console.error(error);
+      });
+});
+
 module.exports = planRoutes;

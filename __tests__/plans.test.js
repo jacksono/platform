@@ -50,11 +50,10 @@ describe('Test plan routes', () => {
     request(app)
       .patch('/api/v1/plans/1/members/1')
       .then((response) => {
-        Member.findById(1))
-        .then((member)=>{
+        Member.findById(1).then((member) => {
           expect(member.planId).toBe(1);
+          done()
         })
-        done()
       });
   });
 });
