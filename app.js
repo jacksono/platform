@@ -2,6 +2,7 @@ const express = require('express');
 const jsonParser = require('body-parser').json;
 const logger = require('morgan');
 const planRoutes = require('./routes/planRoutes');
+const memberRoutes = require('./routes/memberRoutes');
 
 
 const app = express();
@@ -17,6 +18,8 @@ app.use('/api', router.get('/', (req, res) => {
 }));
 
 app.use('/api/v1/plans', planRoutes);
+
+app.use('/api/v1/members', memberRoutes);
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
