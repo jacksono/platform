@@ -6,6 +6,12 @@ const memberRoutes = express.Router();
 
 // Add a member
 memberRoutes.post('/', (req, res) => {
+  if (!req.body.firstName) {
+    res.status(400);
+    res.json({
+      error: "First name must be provided"
+    })
+  }
   Member.create({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
