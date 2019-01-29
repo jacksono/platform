@@ -61,4 +61,14 @@ describe('Test plan routes', () => {
         })
       });
   });
+
+  test('A plan must be created with a name', (done) => {
+    const payload = { type: 'recurssive'};
+    request(app).post('/api/v1/plans').send(payload)
+      .then((response) => {
+        expect(response.statusCode).toBe(400);
+        expect(response.body.error.planName).toEqual("planName must be provided");
+        done()
+      });
+  });
 });
