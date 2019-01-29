@@ -1,30 +1,32 @@
 const request = require('supertest');
 const app = require('../app.js');
-const { Plan, Member } = require('../db')
+const { Plan, Member, db } = require('../db')
 /* eslint no-undef:0 */
 
 describe('Test plan routes', () => {
   beforeAll((done) => {
-  Plan.sync({ force: true })
+  db.sync({ force: true })
     .then(() => {
-      request(app)
-        .post('/api/v1/plans')
-        .send({
-          planName: 'Jane',
-          type: 'recurssive',
-        })
-        .end(() => {
-          Member.create({
-            firstName: "John",
-            lastName: "Doe",
-            dob: "10/12/2008",
-            planId: 1
-          });
-          done()
+      request(app).post('/api/v1/plans').send({
+        planName: 'Jane',
+        type: 'recurrent',
+      })
+      .end(() => {
+        Member.create({
+          firstName: "John",
+          lastName: "Doe",
+          dob: "10/12/2008",
+          planId: 1
         });
+        done()
+      });
     });
-});
+  });
 
+  afterAll((done) => {
+    db.close();
+    done();
+  })
 
   test('A plan can be created', (done) => {
     const payload = { planName: 'Silver', type: 'recurssive'};
