@@ -24,7 +24,10 @@ describe('Test plan routes', () => {
   });
 
   afterAll((done) => {
-    db.close();
+    db.sync({ force: true })
+    .then(()=>{
+      db.close();
+    });
     done();
   })
 
