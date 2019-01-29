@@ -58,12 +58,22 @@ planRoutes.get('/:planId/members', (req, res) => {
 
 // add a member to a plan
 planRoutes.patch('/:planId/members/:memberId', (req, res) => {
-  Member.findById(req.params.memberId )
+  Plan.findById(req.params.planId)
+  .then((plan) => {
+    if (!plan) {
+      res.status(404);
+      res.json({
+        error: { plan: "That plan does not exist" }
+      })
+      return;
+    }
+  })
+  Member.findById(req.params.memberId)
       .then((result) => {
         result.updateAttributes({planId: req.params.planId})
         res.status(200)
         res.json({
-          data: "Updated Succesfully",
+          error: "Updated Succesfully",
         });
       })
       .catch((error) => {
