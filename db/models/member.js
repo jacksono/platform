@@ -4,15 +4,12 @@ const member = (db, DataTypes) => {
     {
       firstName: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       lastName: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       dob: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
     },
   );

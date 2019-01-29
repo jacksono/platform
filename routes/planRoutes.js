@@ -79,6 +79,7 @@ planRoutes.get('/:planId/members', (req, res) => {
 
 // add a member to a plan
 planRoutes.patch('/:planId/members/:memberId', (req, res) => {
+  let errors = {};
   Plan.findById(req.params.planId)
     .then((plan) => {
       if (!plan) {
@@ -91,7 +92,20 @@ planRoutes.patch('/:planId/members/:memberId', (req, res) => {
       Member.findById(req.params.memberId)
         .then((member) => {
           if (!member) {
-            throw Error("That member does not exist");
+            throw Error("That member does not exist.");
+          }
+          if (member && !member.firstName) {
+            errors['firstName'] = "To be added to a plan this member must have a first name."
+          }
+          if (!member.lastName) {
+            errors['lastName'] = "To be added to a plan this member must have a last name."
+          }
+          if (!member.dob) {
+            errors['dob'] = "To be added to a plan this member must have a date of birth."
+          }
+
+          if (Object.keys(errors).length !== 0) {
+            throw Error("Missing fields");
           }
           member.updateAttributes({planId: plan.id})
           res.status(200)
@@ -100,10 +114,15 @@ planRoutes.patch('/:planId/members/:memberId', (req, res) => {
           });
         })
         .catch((error) => {
-          if (error.message === "That member does not exist") {
+          if (error.message === 'Missing fields') {
+            res.status(400);
+            res.json({
+              error: errors
+            })
+          } else if (error.message === 'That member does not exist.') {
             res.status(404);
             res.json({
-              error: { member: "That member does not exist" }
+              error: { member: 'That member does not exist' }
             })
           } else {
             res.status(500).send({ message: 'Internal Server Error' });

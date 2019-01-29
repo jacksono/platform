@@ -34,34 +34,4 @@ describe('Test member routes', () => {
         done()
       });
   });
-
-  test('A member must be created with a  first name', (done) => {
-    const payload = { lastName: 'Bob', dob: '9/5/1990'};
-    request(app).post('/api/v1/members').send(payload)
-      .then((response) => {
-        expect(response.statusCode).toBe(400);
-        expect(response.body.error.firstName).toEqual("First name must be provided");
-        done()
-      });
-  });
-
-  test('A member must be created with a last name', (done) => {
-    const payload = { firstName: 'Bob', dob: '9/5/1990'};
-    request(app).post('/api/v1/members').send(payload)
-      .then((response) => {
-        expect(response.statusCode).toBe(400);
-        expect(response.body.error.lastName).toEqual("Last name must be provided");
-        done()
-      });
-  });
-
-  test('A member must be created with a dob', (done) => {
-    const payload = { firstName: 'Bob', lastName: 'James'};
-    request(app).post('/api/v1/members').send(payload)
-      .then((response) => {
-        expect(response.statusCode).toBe(400);
-        expect(response.body.error.dob).toEqual("DOB must be provided");
-        done()
-      });
-  });
 });

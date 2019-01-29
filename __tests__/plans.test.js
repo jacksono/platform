@@ -141,4 +141,54 @@ describe('Test plan routes', () => {
         done()
       });
   });
+
+  test('A member must have a last name to be added to a plan', (done) => {
+    Member.create({
+      firstName: "Diamond",
+      dob: "12/12/2000"
+    })
+    .then((member) => {
+      request(app).patch(`/api/v1/plans/1/members/${member.id}`)
+        .then((response) => {
+          expect(response.statusCode).toBe(400);
+          expect(response.body.error.lastName).toEqual(
+            "To be added to a plan this member must have a last name."
+          );
+          done()
+        });
+    })
+  });
+
+  test('A member must have a first name to be added to a plan', (done) => {
+    Member.create({
+      lastName: "Diamond",
+      dob: "12/12/2000"
+    })
+    .then((member) => {
+      request(app).patch(`/api/v1/plans/1/members/${member.id}`)
+        .then((response) => {
+          expect(response.statusCode).toBe(400);
+          expect(response.body.error.firstName).toEqual(
+            "To be added to a plan this member must have a first name."
+          );
+          done()
+        });
+    })
+  });
+
+  test('A member must have a dob to be added to a plan', (done) => {
+    Member.create({
+      lastName: "Diamond"
+    })
+    .then((member) => {
+      request(app).patch(`/api/v1/plans/1/members/${member.id}`)
+        .then((response) => {
+          expect(response.statusCode).toBe(400);
+          expect(response.body.error.dob).toEqual(
+            "To be added to a plan this member must have a date of birth."
+          );
+          done()
+        });
+    })
+  });
 });
