@@ -45,4 +45,16 @@ describe('Test plan routes', () => {
         done()
       });
   });
+
+  test('A member can be added to a plan', (done) => {
+    request(app)
+      .patch('/api/v1/plans/1/members/1')
+      .then((response) => {
+        Member.findById(1))
+        .then((member)=>{
+          expect(member.planId).toBe(1);
+        })
+        done()
+      });
+  });
 });
