@@ -3,8 +3,20 @@ A simple membership platform.
 
 In this first release version, you can:
 * Create a plan.
+```
+A plan can be recurrent or time limited. 
+If time limited, the plan  must have start date and an end date.
+All plans must have a name. 
+```
 * Add members to a plan.
+```
+A member can be added to a plan.
+The member must have a first name, last name and date of birth.
+```
 * List members by plan.
+```
+You can list members by the plan they belong to.
+```
 
 
 ### Endpoints:
@@ -92,3 +104,11 @@ Response body - {
                           ]
                         }
 ```
+
+### Getting Started
+To start the API server on your machine (mac):
+* Clone this repo.
+* Run `npm install` in the directory you cloned the repo.
+* Create a `.env` file in the root of the directory and add in it details as shown in the `.env-sample`
+* Run `npm start` to start the server and access the API on `localhost:8000/api/v1/<endpoint>`
+* Run `npm test` to run the tests.
