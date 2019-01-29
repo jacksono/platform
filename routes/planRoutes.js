@@ -13,7 +13,7 @@ planRoutes.post('/', (req, res) => {
     .then((response) => {
       res.status(201);
       res.json({
-        response,
+        data: response,
       });
     })
     .catch((error) => {
