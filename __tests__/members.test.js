@@ -25,11 +25,19 @@ describe('Test member routes', () => {
 
   test('A member can be created', (done) => {
     const payload = { firstName: 'Mbaga', lastName: 'Bob', dob: '9/5/1990'};
-    request(app)
-      .post('/api/v1/members')
-      .send(payload)
+    request(app).post('/api/v1/members').send(payload)
       .then((response) => {
         expect(response.statusCode).toBe(201);
+        done()
+      });
+  });
+
+  test('A member must be created with a  first name', (done) => {
+    const payload = { lastName: 'Bob', dob: '9/5/1990'};
+    request(app).post('/api/v1/members').send(payload)
+      .then((response) => {
+        expect(response.statusCode).toBe(400);
+        expect(response.body.error).toEqual("First name must be provided");
         done()
       });
   });
