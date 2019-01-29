@@ -1,6 +1,6 @@
 const request = require('supertest');
 const app = require('../app.js');
-const { Plan } = require('../db')
+const { Plan, Member } = require('../db')
 /* eslint no-undef:0 */
 
 describe('Test plan routes', () => {
@@ -14,6 +14,12 @@ describe('Test plan routes', () => {
           type: 'recurssive',
         })
         .end(() => {
+          Member.create({
+            firstName: "John",
+            lastName: "Doe",
+            dob: "10/12/2008",
+            planId: 1
+          });
           done()
         });
     });
@@ -35,7 +41,7 @@ describe('Test plan routes', () => {
     request(app)
       .get('/api/v1/plans/1/members')
       .then((response) => {
-        expect(response.data.length).toBe(1);
+        expect(response.body.data.length).toBe(1);
         done()
       });
   });
