@@ -71,4 +71,14 @@ describe('Test plan routes', () => {
         done()
       });
   });
+
+  test('A plan type must be either recurrent or time limted', (done) => {
+    const payload = { planName: 'Gold', type: 'other'};
+    request(app).post('/api/v1/plans').send(payload)
+      .then((response) => {
+        expect(response.statusCode).toBe(400);
+        expect(response.body.error.type).toEqual("type must be either 'recurrent' or 'timeLimited'");
+        done()
+      });
+  });
 });
