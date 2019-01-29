@@ -30,4 +30,13 @@ describe('Test plan routes', () => {
         done()
       });
   });
+
+  test('Can list members belonging to a plan', (done) => {
+    request(app)
+      .get('/api/v1/plans/1/members')
+      .then((response) => {
+        expect(response.data.length).toBe(1);
+        done()
+      });
+  });
 });
