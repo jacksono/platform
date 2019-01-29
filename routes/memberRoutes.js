@@ -11,6 +11,14 @@ memberRoutes.post('/', (req, res) => {
     res.json({
       error: "First name must be provided"
     })
+    return;
+  }
+  if (!req.body.lastName) {
+    res.status(400);
+    res.json({
+      error: "Last name must be provided"
+    })
+    return;
   }
   Member.create({
     firstName: req.body.firstName,
