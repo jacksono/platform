@@ -20,6 +20,13 @@ memberRoutes.post('/', (req, res) => {
     })
     return;
   }
+  if (!req.body.dob) {
+    res.status(400);
+    res.json({
+      error: "DOB must be provided"
+    })
+    return;
+  }
   Member.create({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
