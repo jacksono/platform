@@ -59,27 +59,38 @@ planRoutes.get('/:planId/members', (req, res) => {
 // add a member to a plan
 planRoutes.patch('/:planId/members/:memberId', (req, res) => {
   Plan.findById(req.params.planId)
-  .then((plan) => {
-    if (!plan) {
-      res.status(404);
-      res.json({
-        error: { plan: "That plan does not exist" }
-      })
-      return;
-    }
-  })
-  Member.findById(req.params.memberId)
-      .then((result) => {
-        result.updateAttributes({planId: req.params.planId})
-        res.status(200)
+    .then((plan) => {
+      if (!plan) {
+        res.status(404);
         res.json({
-          error: "Updated Succesfully",
+          error: { plan: "That plan does not exist" }
+        })
+        return;
+      }
+      Member.findById(req.params.memberId)
+        .then((member) => {
+          if (!member) {
+            throw Error("That member does not exist");
+          }
+          member.updateAttributes({plan: plan})
+          res.status(200)
+          res.json({
+            message: "Updated Succesfully",
+          });
+        })
+        .catch((error) => {
+          if (error.message === "That member does not exist") {
+            res.status(404);
+            res.json({
+              error: { member: "That member does not exist" }
+            })
+          } else {
+            res.status(500).send({ message: 'Internal Server Error' });
+            console.error(error);
+          }
         });
-      })
-      .catch((error) => {
-        res.status(500).send({ message: 'Internal Server Error' });
-        console.error(error);
-      });
+  })
+
 });
 
 module.exports = planRoutes;
